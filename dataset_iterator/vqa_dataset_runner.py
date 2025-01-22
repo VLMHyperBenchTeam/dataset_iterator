@@ -22,7 +22,7 @@ class VQADatasetRunner(AbstractDatasetRunner):
         """ Осуществляет прогон модели по датасету VQA, собирает ответы и записывает их на диск. """
         row: VQASample
         for row in self.dataset:
-            answer = self.model.predict(row.image_path, row.question)
+            answer = self.model.predict_on_image(row.image_path, row.question)
             self.add_answer(row, answer)
             
 

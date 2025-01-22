@@ -30,7 +30,7 @@ class IteratorFabric:
     
 
     @classmethod
-    def get_runner(cls, dataset: TIterator, model, **kwargs):
+    def get_runner(cls, iterator: TIterator, model, **kwargs):
         """ Возвращает объект для запуска прогона по датасету """
         
-        return cls._runers[dataset.task_name](dataset, model, **kwargs)
+        return cls._runers[iterator.task_name](iterator, model, **kwargs)
