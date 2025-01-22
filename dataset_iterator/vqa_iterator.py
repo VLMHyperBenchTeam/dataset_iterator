@@ -40,10 +40,9 @@ class VQADatasetIterator(AbstractIterator):
 
         # итерируемся по Dataframe
         index, row = next(self.iterator)
-        self.row_index += 1
 
         # получаем только нужные поля и склеиваем путь до изображения
-        id, image_path, question, answer = row[["id", "image_path", "question", "answer"]]
+        image_path, question, answer = row[["image_path", "question", "answer"]]
         image_path = os.path.join(self.dataset_dir_path, image_path)
 
-        return VQASample(id, image_path, question, answer)
+        return VQASample(index, image_path, question, answer)
