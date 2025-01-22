@@ -1,6 +1,8 @@
 import os
 import pandas as pd
+
 from abstract_iterator import AbstractIterator, AbstractSample
+from prompt_adapter.prompt_adapter import PromptAdapter
 
 
 class VQASample(AbstractSample):
@@ -11,6 +13,15 @@ class VQASample(AbstractSample):
 
 
 class VQADatasetIterator(AbstractIterator):
+
+    def __init__(self, prompt_collection_filename: str, *args, **kwargs):
+        """ В стандартный конструктор добавляем коллекцию промптов, если она задана """
+        super().__init__(*args, **kwargs)
+
+        if prompt_collection_filename:
+            self.prompt_adapter = PromptAdapter(prompt_collection_filename)
+        else:
+            self.prompt_adapter = None
 
     def _read_data(self):
         """Загружает таблицу с аннотацией данных. """
@@ -42,7 +53,12 @@ class VQADatasetIterator(AbstractIterator):
         index, row = next(self.iterator)
 
         # получаем только нужные поля и склеиваем путь до изображения
-        image_path, question, answer = row[["image_path", "question", "answer"]]
+        image_path, question, answer, doc_class, question_type  = row[["image_path", "question", "answer", "doc_class", "question_type"]]
+
+        # получаем оптимальный промпт из промпт адаптера
+        if self.prompt_adapter:
+            question = self.prompt_adapter.get_prompt(doc_class, question_type)
+
         image_path = os.path.join(self.dataset_dir_path, image_path)
 
         return VQASample(index, image_path, question, answer)
