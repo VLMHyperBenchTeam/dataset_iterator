@@ -17,14 +17,14 @@ class AbstractIterator(ABC):
     """Класс абстрактного итератора для получения сэмпла из датасета. """
 
     def __init__(self, task_name:str, dataset_name:str, start=0, filter_doc_class=None, filter_question_type=None, 
-                 dataset_dir_path='/data', csv_file='annotation.csv'):
+                 dataset_dir_path='/data', csv_name='annotation.csv'):
         self.dataset_name = dataset_name
         self.row_index = start
         self.task_name = task_name
         self.filter_doc_class = filter_doc_class
         self.filter_question_type = filter_question_type
         self.dataset_dir_path = dataset_dir_path
-        self.csv_file = csv_file
+        self.csv_name = csv_name
         self._read_data()
 
     @abstractmethod
