@@ -1,6 +1,6 @@
-from vqa_iterator import VQADatasetIterator
-from vqa_dataset_runner import VQADatasetRunner
-from abstract_dataset_runner import TIterator
+from .vqa_iterator import VQADatasetIterator
+from .vqa_dataset_runner import VQADatasetRunner
+from .abstract_dataset_runner import TIterator
 
 
 class IteratorFabric:

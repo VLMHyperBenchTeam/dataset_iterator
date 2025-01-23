@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from abstract_iterator import AbstractIterator, AbstractSample
+from .abstract_iterator import AbstractIterator, AbstractSample
 from prompt_adapter.prompt_adapter import PromptAdapter
 
 
@@ -14,7 +14,7 @@ class VQASample(AbstractSample):
 
 class VQADatasetIterator(AbstractIterator):
 
-    def __init__(self, prompt_collection_filename: str, *args, **kwargs):
+    def __init__(self, prompt_collection_filename: str=None, *args, **kwargs):
         """ В стандартный конструктор добавляем коллекцию промптов, если она задана """
         super().__init__(*args, **kwargs)
 

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar
 
-from abstract_iterator import AbstractIterator, TSample
+from .abstract_iterator import AbstractIterator, TSample
 
 TIterator = TypeVar('T', bound=AbstractIterator)
 

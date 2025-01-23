@@ -4,8 +4,8 @@ import datetime
 from dataclasses import dataclass, asdict
 import pandas as pd
 
-from abstract_dataset_runner import AbstractDatasetRunner
-from vqa_iterator import VQASample 
+from .abstract_dataset_runner import AbstractDatasetRunner
+from .vqa_iterator import VQASample 
 
 
 @dataclass
