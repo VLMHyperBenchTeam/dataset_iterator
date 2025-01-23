@@ -10,6 +10,16 @@ class VQASample(AbstractSample):
     image_path: str
     question: str
     answer: str
+    doc_class: str
+    question_type: str
+
+    def __init__(self, id, image_path, question, answer, doc_class, question_type):
+        super().__init__(id=id)
+        self.image_path=image_path
+        self.question=question
+        self.answer=answer
+        self.doc_class=doc_class
+        self.question_type=question_type
 
 
 class VQADatasetIterator(AbstractIterator):
@@ -61,4 +71,9 @@ class VQADatasetIterator(AbstractIterator):
 
         image_path = os.path.join(self.dataset_dir_path, image_path)
 
-        return VQASample(index, image_path, question, answer)
+        return VQASample(id=index, 
+                         image_path=image_path, 
+                         question=question, 
+                         answer=answer, 
+                         doc_class=doc_class, 
+                         question_type=question_type)

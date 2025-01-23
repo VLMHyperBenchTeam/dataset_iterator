@@ -21,12 +21,20 @@ class IteratorFabric:
 
 
     @classmethod
-    def get_dataset_iterator(cls, task_name:str, dataset_name:str, start=0, filter_doc_class=None, filter_question_type=None):
+    def get_dataset_iterator(cls, task_name:str, dataset_name:str, start=0, filter_doc_class=None, filter_question_type=None, 
+                             dataset_dir_path='/data', csv_name='annotations.csv', **kwargs):
         """ Возвращает итератор по датасету """
         if task_name not in cls._tasks:
             raise ValueError(f"Task '{task_name}' is implemented!")
-        
-        return cls._iterators[task_name](dataset_name, start, filter_doc_class, filter_question_type)
+        return cls._iterators[task_name](
+                                         task_name=task_name, 
+                                         dataset_name=dataset_name, 
+                                         start=start, 
+                                         filter_doc_class=filter_doc_class, 
+                                         filter_question_type=filter_question_type, 
+                                         dataset_dir_path=dataset_dir_path, 
+                                         csv_name=csv_name, 
+                                         **kwargs)
     
 
     @classmethod

@@ -18,6 +18,9 @@ class AbstractIterator(ABC):
 
     def __init__(self, task_name:str, dataset_name:str, start=0, filter_doc_class=None, filter_question_type=None, 
                  dataset_dir_path='/data', csv_name='annotation.csv'):
+        
+        print("__init__", dataset_dir_path)
+
         self.dataset_name = dataset_name
         self.row_index = start
         self.task_name = task_name
