@@ -1,5 +1,5 @@
 import os
-import datetime
+from datetime import datetime
 
 from dataclasses import dataclass, asdict
 import pandas as pd
@@ -21,7 +21,7 @@ class VQADatasetRunner(AbstractDatasetRunner):
     def run(self):
         """ Осуществляет прогон модели по датасету VQA, собирает ответы и записывает их на диск. """
         row: VQASample
-        for row in self.dataset:
+        for row in self.iterator:
             answer = self.model.predict_on_image(row.image_path, row.question)
             self.add_answer(row, answer)
             
@@ -48,7 +48,7 @@ class VQADatasetRunner(AbstractDatasetRunner):
         os.makedirs(self.answers_dir_path, exist_ok=True)  # Создаем директорию, если её нет
         timestamp = datetime.now().strftime(r"%Y%m%d_%H%M%S")  # Формат: ГГГГММДД_ЧЧММСС
         save_path = os.path.join(self.answers_dir_path, 
-                                 f"{self.dataset.dataset_name}_MODELFRAMEWORK_MODELNAME_{self.task_name}_answers_{timestamp}.csv")
+                                 f"{self.iterator.dataset_name}_MODELFRAMEWORK_{self.model.model_name}_{self.iterator.task_name}_answers_{timestamp}.csv")
 
         # Сохраняем DataFrame в CSV
         answers_df.to_csv(save_path, index=False, sep=";")

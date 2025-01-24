@@ -4,6 +4,7 @@ class ModelInterface:
 
     def predict_on_image(self, image, question) -> str:
         print("predict!")
+        return "predict!"
 
 
 
@@ -15,6 +16,7 @@ if __name__ == "__main__":
     # Совершаем прогон по датасету
     iterator = IteratorFabric.get_dataset_iterator(task_name="VQA", 
                                                    dataset_name="pass",
-                                                   dataset_dir_path=r"C:\itmo\2024_1\vlmhyperbench\dataset_iterator\data")
+                                                   dataset_dir_path=r".\data")
     runner = IteratorFabric.get_runner(iterator, model)
     runner.run()
+    runner.save_answers()

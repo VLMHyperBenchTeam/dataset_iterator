@@ -8,10 +8,10 @@ TIterator = TypeVar('T', bound=AbstractIterator)
 
 class AbstractDatasetRunner(ABC):
     """ Абстрактный класс, реализующий логику прогона модели по датасету. """
-    def __init__(self, dataset: TIterator, model, dataset_dir_path="/workspace/data",
+    def __init__(self, iterator: TIterator, model, dataset_dir_path="/workspace/data",
                  answers_dir_path="/workspace/answers", csv_name="annotation.csv"):
         
-        self.dataset = dataset
+        self.iterator = iterator
         self.model = model
         
         self.model_answers = []
