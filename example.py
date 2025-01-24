@@ -1,3 +1,6 @@
+from dataset_iterator.fabrics import IteratorFabric
+
+
 class ModelInterface:
     def __init__(self, model_name) -> None:
         self.model_name = model_name
@@ -7,8 +10,6 @@ class ModelInterface:
         return "predict!"
 
 
-
-from dataset_iterator.fabrics import IteratorFabric
 
 if __name__ == "__main__":
     model = ModelInterface("Cool2-VL")
