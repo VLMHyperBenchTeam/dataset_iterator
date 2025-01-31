@@ -1,3 +1,6 @@
+import os
+from datetime import datetime
+
 from abc import ABC, abstractmethod
 from typing import TypeVar, Any
 
@@ -19,7 +22,7 @@ class AbstractDatasetRunner(ABC):
     """
 
     def __init__(self, iterator: TIterator, model: Any, dataset_dir_path: str = "/workspace/data",
-                 answers_dir_path: str = "/workspace/answers", csv_name: str = "annotation.csv") -> None:
+                 answers_dir_path: str = "/workspace/answers", csv_name: str = None) -> None:
         """Инициализирует экземпляр AbstractDatasetRunner.
 
         Аргументы:
@@ -27,7 +30,7 @@ class AbstractDatasetRunner(ABC):
             model (ModelInterface): VLM-модель, которая будет использоваться для получения ответа.
             dataset_dir_path (str): Путь к директории с датасетом. По умолчанию "/workspace/data".
             answers_dir_path (str): Путь к директории для сохранения ответов. По умолчанию "/workspace/answers".
-            csv_name (str): Имя CSV-файла для сохранения ответов. По умолчанию "annotation.csv".
+            csv_name (str): Имя CSV-файла для сохранения ответов. По умолчанию None и задаётся динамически согласно атрибутам класса.
         """
         self.iterator = iterator
         self.model = model
@@ -56,10 +59,22 @@ class AbstractDatasetRunner(ABC):
         """
         pass
 
-    @abstractmethod
-    def save_answers(self) -> None:
-        """Сохраняет ответы в CSV-файл под названием csv_name по пути self.answers_dir_path.
+    def get_answer_filename(self) -> str:
+        """Генерирует путь до файла с ответами модели.
+        """
+        # TODO: получить Modelframework из свойств модели 
+        os.makedirs(self.answers_dir_path, exist_ok=True)  # Создаем директорию, если её нет
+        timestamp = datetime.now().strftime(r"%Y%m%d_%H%M%S")  # Формат: ГГГГММДД_ЧЧММСС
+        save_path = os.path.join(
+            self.answers_dir_path,
+            f"{self.iterator.dataset_name}_MODELFRAMEWORK_{self.model.model_name}_{self.iterator.task_name}_answers_{timestamp}.csv"
+        )
+        return save_path
 
+    @abstractmethod
+    def save_answers(self) -> str:
+        """Сохраняет ответы в CSV-файл под названием csv_name по пути self.answers_dir_path.
+        Возвращает путь до сохранённого файла с ответами модели.
         Этот метод должен быть реализован в подклассах.
         """
         pass

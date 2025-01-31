@@ -1,5 +1,3 @@
-import os
-from datetime import datetime
 from dataclasses import dataclass, asdict
 import pandas as pd
 
@@ -28,7 +26,7 @@ class VQADatasetRunner(AbstractDatasetRunner):
         model_answers (list[ModelAnswer]): Список ответов модели.
         dataset_dir_path (str): Путь к директории с датасетом. По умолчанию "/workspace/data".
         answers_dir_path (str): Путь к директории для сохранения ответов. По умолчанию "/workspace/answers".
-        csv_name (str): Имя CSV-файла для сохранения ответов. По умолчанию "annotation.csv".
+        csv_name (str): Имя CSV-файла для сохранения ответов. По умолчанию None и задаётся динамически согласно атрибутам класса.
     """
 
     def run(self) -> None:
@@ -55,7 +53,7 @@ class VQADatasetRunner(AbstractDatasetRunner):
             )
         )
 
-    def save_answers(self) -> None:
+    def save_answers(self) -> str:
         """Сохраняет ответы в CSV-файл по пути self.answers_dir_path с добавлением timestamp в название файла.
 
         Если список ответов пуст, выводит предупреждение и не сохраняет файл.
@@ -68,13 +66,8 @@ class VQADatasetRunner(AbstractDatasetRunner):
         answers_df = pd.DataFrame([asdict(answer) for answer in self.model_answers])
 
         # Создаем путь для сохранения файла с timestamp
-        os.makedirs(self.answers_dir_path, exist_ok=True)  # Создаем директорию, если её нет
-        timestamp = datetime.now().strftime(r"%Y%m%d_%H%M%S")  # Формат: ГГГГММДД_ЧЧММСС
-        save_path = os.path.join(
-            self.answers_dir_path,
-            f"{self.iterator.dataset_name}_MODELFRAMEWORK_{self.model.model_name}_{self.iterator.task_name}_answers_{timestamp}.csv"
-        )
+        save_path = self.get_answer_filename()
 
         # Сохраняем DataFrame в CSV
         answers_df.to_csv(save_path, index=False, sep=";")
-        print(f"Ответы сохранены в файл: {save_path}")
+        return save_path
