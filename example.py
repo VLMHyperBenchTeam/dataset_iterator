@@ -14,10 +14,22 @@ class ModelInterface:
 if __name__ == "__main__":
     model = ModelInterface("Cool2-VL")
 
-    # Совершаем прогон по датасету
+    # получаем итератор по датесету параметры 
     iterator = IteratorFabric.get_dataset_iterator(task_name="VQA", 
                                                    dataset_name="pass",
-                                                   dataset_dir_path=r".\data")
-    runner = IteratorFabric.get_runner(iterator, model)
+                                                   start=0,
+                                                   filter_doc_class=None,
+                                                   filter_question_type=None,
+                                                   dataset_dir_path=r".\datasets\data",
+                                                   csv_name = "annotations.csv")
+    # Получаем раннер
+    runner = IteratorFabric.get_runner(iterator=iterator, 
+                                       model=model,
+                                       dataset_dir_path="/workspace/data",
+                                       answers_dir_path="/workspace/answers",
+                                       csv_name="answers.csv")
+    # Совершаем прогон по датасету
     runner.run()
-    runner.save_answers()
+    # Сохраняем ответы
+    save_path = runner.save_answers()
+    print("Ответы сохранены в", save_path)

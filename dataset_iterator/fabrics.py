@@ -69,7 +69,9 @@ class IteratorFabric:
         )
 
     @classmethod
-    def get_runner(cls, iterator: TIterator, model, **kwargs) -> TRunner:
+    def get_runner(cls, iterator: TIterator, model, dataset_dir_path: str = "/workspace/data",
+                 answers_dir_path: str = "/workspace/answers", csv_name: str = "answers.csv", **kwargs) -> TRunner:
+
         """Возвращает объект для запуска прогона модели по датасету.
 
         Аргументы:
@@ -80,4 +82,4 @@ class IteratorFabric:
         Возвращает:
             AbstractDatasetRunner: Объект для прогона модели по датасету.
         """
-        return cls._runers[iterator.task_name](iterator, model, **kwargs)
+        return cls._runers[iterator.task_name](iterator, model, dataset_dir_path, answers_dir_path, csv_name, **kwargs)
