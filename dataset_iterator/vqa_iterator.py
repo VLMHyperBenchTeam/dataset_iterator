@@ -64,6 +64,8 @@ class VQADatasetIterator(AbstractIterator):
         else:
             self.prompt_adapter = None
 
+        self._read_data()
+
     def _read_data(self) -> None:
         """Загружает таблицу с аннотацией данных.
 

@@ -1,5 +1,5 @@
 from dataset_iterator.fabrics import IteratorFabric
-
+from dataset_iterator.rpo_iterator import RPOSample
 
 class ModelInterface:
     def __init__(self, model_name) -> None:
@@ -14,7 +14,9 @@ class ModelInterface:
 if __name__ == "__main__":
     model = ModelInterface("Cool2-VL")
 
-    # получаем итератор по датесету параметры 
+    # VQA SECTION
+
+    # получаем итератор по датесету 
     iterator = IteratorFabric.get_dataset_iterator(task_name="VQA", 
                                                    dataset_name="pass",
                                                    start=0,
@@ -33,3 +35,21 @@ if __name__ == "__main__":
     # Сохраняем ответы
     save_path = runner.save_answers()
     print("Ответы сохранены в", save_path)
+
+
+    # RPO SECTION
+    # получаем итератор по датесету 
+    iterator = IteratorFabric.get_dataset_iterator(task_name="RPO", 
+                                                   dataset_name="small-dataset",
+                                                   start=0,
+                                                   filter_doc_class=None,
+                                                   filter_question_type=None,
+                                                   dataset_dir_path=r".\datasets\rpo")
+    # Пример работы итератора
+    sample: RPOSample
+    for sample in iterator:
+        print("ID:", sample.id)
+        print(sample.answer.keys())
+        for img in sample.images:
+            print(img, end=" ")
+        print()

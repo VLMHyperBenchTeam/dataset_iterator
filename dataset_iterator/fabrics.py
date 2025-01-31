@@ -1,8 +1,9 @@
 from typing import Optional, TypeVar
 
+from .abstract_dataset_runner import TIterator, AbstractDatasetRunner
+from .rpo_iterator import RPODatasetIterator
 from .vqa_iterator import VQADatasetIterator
 from .vqa_dataset_runner import VQADatasetRunner
-from .abstract_dataset_runner import TIterator, AbstractDatasetRunner
 
 # Определяем TypeVar с ограничением на AbstractDatasetRunner и его наследников
 TRunner = TypeVar('TRunner', bound=AbstractDatasetRunner)
@@ -24,6 +25,7 @@ class IteratorFabric:
 
     _iterators = {
         _VQAName: VQADatasetIterator,
+        _RPOName: RPODatasetIterator,
     }
 
     _runers = {

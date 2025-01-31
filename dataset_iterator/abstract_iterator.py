@@ -50,8 +50,8 @@ class AbstractIterator(ABC):
         self.filter_doc_class = filter_doc_class
         self.filter_question_type = filter_question_type
         self.dataset_dir_path = dataset_dir_path
+        # TODO: csv_name - VQA only
         self.csv_name = csv_name
-        self._read_data()
 
     @abstractmethod
     def _read_data(self) -> None:
