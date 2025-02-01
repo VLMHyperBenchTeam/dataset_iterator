@@ -16,26 +16,23 @@ class AbstractDatasetRunner(ABC):
         iterator (TIterator): Итератор, который предоставляет доступ к данным датасета.
         model (ModelInterface): VLM-модель, которая будет использоваться для получения ответа.
         model_answers (list): Список для хранения ответов модели.
-        dataset_dir_path (str): Путь к директории с датасетом. По умолчанию "/workspace/data".
         answers_dir_path (str): Путь к директории для сохранения ответов. По умолчанию "/workspace/answers".
         csv_name (str): Имя CSV-файла для сохранения ответов. По умолчанию "annotation.csv".
     """
 
-    def __init__(self, iterator: TIterator, model: Any, dataset_dir_path: str = "/workspace/data",
-                 answers_dir_path: str = "/workspace/answers", csv_name: str = None) -> None:
+    def __init__(self, iterator: TIterator, model: Any, answers_dir_path: str = "/workspace/answers", 
+                 csv_name: str = None) -> None:
         """Инициализирует экземпляр AbstractDatasetRunner.
 
         Аргументы:
             iterator (TIterator): Итератор, который предоставляет доступ к данным датасета.
             model (ModelInterface): VLM-модель, которая будет использоваться для получения ответа.
-            dataset_dir_path (str): Путь к директории с датасетом. По умолчанию "/workspace/data".
             answers_dir_path (str): Путь к директории для сохранения ответов. По умолчанию "/workspace/answers".
             csv_name (str): Имя CSV-файла для сохранения ответов. По умолчанию None и задаётся динамически согласно атрибутам класса.
         """
         self.iterator = iterator
         self.model = model
         self.model_answers = []
-        self.dataset_dir_path = dataset_dir_path
         self.answers_dir_path = answers_dir_path
         self.csv_name = csv_name
 

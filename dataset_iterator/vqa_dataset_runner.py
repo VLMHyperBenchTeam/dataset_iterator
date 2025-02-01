@@ -24,7 +24,6 @@ class VQADatasetRunner(AbstractDatasetRunner):
         iterator (TIterator): Итератор, который предоставляет доступ к данным датасета.
         model (ModelInterface): VLM-модель, которая будет использоваться для получения ответа.
         model_answers (list[ModelAnswer]): Список ответов модели.
-        dataset_dir_path (str): Путь к директории с датасетом. По умолчанию "/workspace/data".
         answers_dir_path (str): Путь к директории для сохранения ответов. По умолчанию "/workspace/answers".
         csv_name (str): Имя CSV-файла для сохранения ответов. По умолчанию None и задаётся динамически согласно атрибутам класса.
     """
