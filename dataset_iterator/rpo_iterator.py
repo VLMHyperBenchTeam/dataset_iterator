@@ -14,18 +14,18 @@ class RPOSample(AbstractSample):
     Атрибуты:
         id (int): Уникальный идентификатор объекта датасета.
         images (List[str]): Список путей к изображению одного семпла.
-        answer (str): Ответ на вопрос.
+        answer (dict): Ответ на вопрос.
     """
     images: List[str]
     answer: dict
 
-    def __init__(self, id: int, images: List[str], answer: str) -> None:
+    def __init__(self, id: int, images: List[str], answer: dict) -> None:
         """Инициализирует экземпляр VQASample.
 
         Аргументы:
             id (int): Уникальный идентификатор объекта датасета.
             images (List[str]): Список путей к изображению одного семпла.
-            answer (str): Ответ на вопрос.
+            answer (dict): Ответ на вопрос.
         """
         super().__init__(id=id)
         self.answer = answer
