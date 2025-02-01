@@ -14,12 +14,14 @@ class RPOSample(AbstractSample):
     Атрибуты:
         id (int): Уникальный идентификатор объекта датасета.
         images (List[str]): Список путей к изображению одного семпла.
-        answer (dict): Ответ на вопрос.
+        answer (dict): Правильный ответ на задачу классификации и сортировки.
+        prompt (str): Промпт к модели.
     """
     images: List[str]
     answer: dict
+    prompt: str
 
-    def __init__(self, id: int, images: List[str], answer: dict) -> None:
+    def __init__(self, id: int, images: List[str], answer: dict, prompt: str) -> None:
         """Инициализирует экземпляр VQASample.
 
         Аргументы:
@@ -30,6 +32,7 @@ class RPOSample(AbstractSample):
         super().__init__(id=id)
         self.answer = answer
         self.images = images
+        self.prompt = prompt
 
 
 class RPODatasetIterator(AbstractIterator):
@@ -83,7 +86,9 @@ class RPODatasetIterator(AbstractIterator):
 
                     sample = RPOSample(id=int(dir_name), 
                                        images=images, 
-                                       answer=json_data)
+                                       answer=json_data,
+                                       # TODO: prompt_adapter here
+                                       prompt="xa-xa")
                     self.samples.append(sample)
         
     def __next__(self) -> RPOSample:

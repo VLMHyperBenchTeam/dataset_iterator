@@ -8,6 +8,11 @@ class ModelInterface:
     def predict_on_image(self, image, question) -> str:
         print("predict!")
         return "predict!"
+    
+    def predict_on_images(self, images, question) -> str:
+        print("predict on multiple images!")
+        return "predict on multiple images!"
+
 
 
 
@@ -17,39 +22,51 @@ if __name__ == "__main__":
     # VQA SECTION
 
     # получаем итератор по датесету 
-    iterator = IteratorFabric.get_dataset_iterator(task_name="VQA", 
-                                                   dataset_name="pass",
-                                                   start=0,
-                                                   filter_doc_class=None,
-                                                   filter_question_type=None,
-                                                   dataset_dir_path=r".\datasets\data",
-                                                   csv_name = "annotations.csv")
+    vqa_iterator = IteratorFabric.get_dataset_iterator(task_name="VQA", 
+                                                       dataset_name="pass",
+                                                       start=0,
+                                                       filter_doc_class=None,
+                                                       filter_question_type=None,
+                                                       dataset_dir_path=r".\datasets\data",
+                                                       csv_name = "annotations.csv")
     # Получаем раннер
-    runner = IteratorFabric.get_runner(iterator=iterator, 
-                                       model=model,
-                                       dataset_dir_path="/workspace/data",
-                                       answers_dir_path="/workspace/answers",
-                                       csv_name="answers.csv")
+    vqa_runner = IteratorFabric.get_runner(iterator=vqa_iterator, 
+                                           model=model,
+                                           answers_dir_path="/workspace/answers",
+                                           csv_name="answers.csv")
     # Совершаем прогон по датасету
-    runner.run()
+    vqa_runner.run()
     # Сохраняем ответы
-    save_path = runner.save_answers()
+    save_path = vqa_runner.save_answers()
     print("Ответы сохранены в", save_path)
 
 
     # RPO SECTION
+
     # получаем итератор по датесету 
-    iterator = IteratorFabric.get_dataset_iterator(task_name="RPO", 
-                                                   dataset_name="small-dataset",
-                                                   start=0,
-                                                   filter_doc_class=None,
-                                                   filter_question_type=None,
-                                                   dataset_dir_path=r".\datasets\rpo")
+    rpo_iterator = IteratorFabric.get_dataset_iterator(task_name="RPOClassification", 
+                                                       dataset_name="small-dataset",
+                                                       start=0,
+                                                       filter_doc_class=None,
+                                                       filter_question_type=None,
+                                                       dataset_dir_path=r".\datasets\rpo")
     # Пример работы итератора
-    sample: RPOSample
-    for sample in iterator:
-        print("ID:", sample.id)
-        print(sample.answer.keys())
-        for img in sample.images:
-            print(img, end=" ")
-        print()
+    # sample: RPOSample
+    # for sample in rpo_iterator:
+    #     print("ID:", sample.id)
+    #     print(sample.answer.keys())
+    #     for img in sample.images:
+    #         print(img, end=" ")
+    #     print()
+
+    # Получаем раннер
+    rpo_runner = IteratorFabric.get_runner(iterator=rpo_iterator, 
+                                           model=model,
+                                           answers_dir_path="/workspace/answers",
+                                           csv_name="cls_answers.csv")
+
+    # Совершаем прогон по датасету
+    rpo_runner.run()
+    # Сохраняем ответы
+    save_path = rpo_runner.save_answers()
+    print("Ответы сохранены в", save_path)
