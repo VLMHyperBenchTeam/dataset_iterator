@@ -11,10 +11,10 @@ class VQAModelAnswer:
 
     Атрибуты:
         id (int): Уникальный идентификатор ответа, соответствующий идентификатору сэмпла.
-        answer (str): Текст ответа модели.
+        model_answer (str): Текст ответа модели.
     """
     id: int
-    answer: str
+    model_answer: str
 
 
 class VQADatasetRunner(AbstractDatasetRunner):
