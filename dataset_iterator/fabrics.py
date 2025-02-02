@@ -2,6 +2,7 @@ from typing import Optional, TypeVar
 
 from .abstract_dataset_runner import TIterator, AbstractDatasetRunner
 from .rpo_iterator import RPODatasetIterator
+from .sorting_runner import SortingRunner
 from .classification_runner import ClassificationRunner
 from .vqa_iterator import VQADatasetIterator
 from .vqa_dataset_runner import VQADatasetRunner
@@ -23,15 +24,18 @@ class IteratorFabric:
 
     _VQAName = "VQA"
     _RPOClassificationName = "RPOClassification"
+    _RPOSortingName = "RPOSorting"
 
     _iterators = {
         _VQAName: VQADatasetIterator,
         _RPOClassificationName: RPODatasetIterator,
+        _RPOSortingName: RPODatasetIterator,
     }
 
     _runers = {
         _VQAName: VQADatasetRunner,
         _RPOClassificationName: ClassificationRunner,
+        _RPOSortingName: SortingRunner,
     }
 
     _tasks = _iterators.keys()

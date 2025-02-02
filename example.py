@@ -11,7 +11,7 @@ class ModelInterface:
     
     def predict_on_images(self, images, question) -> str:
         print("predict on multiple images!")
-        return "predict on multiple images!"
+        return "44132"
 
 
 
@@ -43,6 +43,7 @@ if __name__ == "__main__":
 
     # RPO SECTION
 
+    # Classification
     # получаем итератор по датесету 
     rpo_iterator = IteratorFabric.get_dataset_iterator(task_name="RPOClassification", 
                                                        dataset_name="small-dataset",
@@ -64,6 +65,26 @@ if __name__ == "__main__":
                                            model=model,
                                            answers_dir_path="/workspace/answers",
                                            csv_name="cls_answers.csv")
+
+    # Совершаем прогон по датасету
+    rpo_runner.run()
+    # Сохраняем ответы
+    save_path_classification = rpo_runner.save_answers()
+    print("Ответы сохранены в", save_path_classification)
+
+    # Sorting
+    # создаем новый итератор
+    rpo_iterator = IteratorFabric.get_dataset_iterator(task_name="RPOSorting",
+                                                       dataset_name="small-dataset",
+                                                       dataset_dir_path=r".\datasets\rpo")
+     
+
+    # Получаем раннер
+    rpo_runner = IteratorFabric.get_runner(iterator=rpo_iterator, 
+                                           model=model,
+                                           answers_dir_path="/workspace/answers",
+                                           csv_name="sort_answers.csv",
+                                           classification_answers_path=save_path_classification)
 
     # Совершаем прогон по датасету
     rpo_runner.run()

@@ -13,14 +13,14 @@ class ClassificationModelAnswer:
 
     Атрибуты:
         id (int): Уникальный идентификатор ответа, соответствующий идентификатору сэмпла.
-        answer (str): Текст ответа модели.
+        model_answer (str): Текст ответа модели.
     """
     sample_id: int
-    answer: str
+    model_answer: str
 
 
 class ClassificationRunner(AbstractDatasetRunner):
-    """Класс, реализующий прогон модели по датасету задачи VQA.
+    """Класс, реализующий прогон модели по датасету задачи этапа классификации в RPO.
 
     Атрибуты:
         iterator (TIterator): Итератор, который предоставляет доступ к данным датасета.
@@ -59,7 +59,7 @@ class ClassificationRunner(AbstractDatasetRunner):
     def get_answer_filename(self) -> str:
         """Генерирует путь до файла с ответами модели.
         """
-        # TODO: получить Modelframework из свойств модели ModelAnswersClassification
+        # TODO: получить Modelframework из свойств модели
         os.makedirs(self.answers_dir_path, exist_ok=True)  # Создаем директорию, если её нет
         timestamp = datetime.now().strftime(r"%Y%m%d_%H%M%S")  # Формат: ГГГГММДД_ЧЧММСС
         save_path = os.path.join(
