@@ -3,7 +3,7 @@ import json
 from typing import Optional, List
 
 from .abstract_iterator import AbstractIterator, AbstractSample
-from prompt_adapter.prompt_adapter import PromptAdapter
+from prompt_adapter.rpo_prompt_adapter import TXTPromptAdapter
 
 
 class RPOSample(AbstractSample):
@@ -43,22 +43,24 @@ class RPODatasetIterator(AbstractIterator):
         samples (List[RPOSample]): Список всех элементов датасета
     """
 
-    def __init__(self, prompt_collection_filename: Optional[str] = None, *args, **kwargs) -> None:
+    def __init__(self, task_name: str, dataset_name: str, start: int = 0, 
+                 filter_doc_class: Optional[str] = None, filter_question_type: Optional[str] = None, 
+                 dataset_dir_path: str = '/data', csv_name: str = 'annotation.csv',
+                 prompt_file_dir: str = 'prompts', prompt_file_name: str = "prompt.txt") -> None:
         """Инициализирует экземпляр RPODatasetIterator.
 
         Аргументы:
-            prompt_collection_filename (Optional[str]): Путь к файлу с коллекцией промптов. По умолчанию None.
+            prompt_file_path (str): Название файла с коллекцией промптов.
+            prompt_file_dir (str): Путь к файлу с коллекцией промптов. По умолчанию '/prompts'
             *args: Аргументы для базового класса.
             **kwargs: Ключевые аргументы для базового класса.
         """
-        super().__init__(*args, **kwargs)
+        super().__init__(task_name, dataset_name, start, filter_doc_class, filter_question_type, dataset_dir_path, csv_name)
         self.samples = []
         self.index = 0
-
-        if prompt_collection_filename:
-            self.prompt_adapter = PromptAdapter(prompt_collection_filename)
-        else:
-            self.prompt_adapter = None
+        
+        # Промпт адаптер обязателен
+        self.prompt_adapter = TXTPromptAdapter(prompt_file_name, prompt_file_dir)
 
         self._read_data()
 
@@ -69,6 +71,7 @@ class RPODatasetIterator(AbstractIterator):
         images_dir = os.path.join(self.dataset_dir_path, 'images')
         jsons_dir = os.path.join(self.dataset_dir_path, 'jsons')
 
+        prompt = self.prompt_adapter.get_prompt()
         # Проходим по всем поддиректориям в images
         for dir_name in os.listdir(images_dir):
             dir_path = os.path.join(images_dir, dir_name)
@@ -87,8 +90,7 @@ class RPODatasetIterator(AbstractIterator):
                     sample = RPOSample(id=int(dir_name), 
                                        images=images, 
                                        answer=json_data,
-                                       # TODO: prompt_adapter here
-                                       prompt="xa-xa")
+                                       prompt=prompt)
                     self.samples.append(sample)
         
     def __next__(self) -> RPOSample:

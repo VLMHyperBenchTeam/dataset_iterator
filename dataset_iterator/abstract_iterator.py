@@ -32,7 +32,7 @@ class AbstractIterator(ABC):
 
     def __init__(self, task_name: str, dataset_name: str, start: int = 0, 
                  filter_doc_class: Optional[str] = None, filter_question_type: Optional[str] = None, 
-                 dataset_dir_path: str = '/data', csv_name: str = 'annotation.csv') -> None:
+                 dataset_dir_path: str = '/data', csv_name: str = 'annotation.csv', *args, **kwargs) -> None:
         """Инициализирует экземпляр AbstractIterator.
 
         Аргументы:

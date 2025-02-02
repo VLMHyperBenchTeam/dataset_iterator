@@ -43,7 +43,9 @@ class IteratorFabric:
     @classmethod
     def get_dataset_iterator(cls, task_name: str, dataset_name: str, start: int = 0, 
                              filter_doc_class: Optional[str] = None, filter_question_type: Optional[str] = None, 
-                             dataset_dir_path: str = '/data', csv_name: str = 'annotations.csv', *args, **kwargs) -> TIterator:
+                             dataset_dir_path: str = '/data', csv_name: str = 'annotation.csv',
+                             prompt_file_dir: str = 'prompts', prompt_file_name: str = "prompt.txt", *args, **kwargs) -> TIterator:
+        
         """Возвращает итератор по датасету для указанной задачи.
 
         Аргументы:
@@ -72,6 +74,8 @@ class IteratorFabric:
             filter_question_type=filter_question_type,
             dataset_dir_path=dataset_dir_path,
             csv_name=csv_name,
+            prompt_file_dir=prompt_file_dir,
+            prompt_file_name=prompt_file_name,
             *args,
             **kwargs
         )

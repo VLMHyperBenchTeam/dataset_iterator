@@ -45,12 +45,16 @@ if __name__ == "__main__":
 
     # Classification
     # получаем итератор по датесету 
-    rpo_iterator = IteratorFabric.get_dataset_iterator(task_name="RPOClassification", 
+    rpo_iterator = IteratorFabric.get_dataset_iterator(
+                                                       dataset_dir_path=r".\datasets\rpo",
+                                                       task_name="RPOClassification", 
                                                        dataset_name="small-dataset",
                                                        start=0,
                                                        filter_doc_class=None,
                                                        filter_question_type=None,
-                                                       dataset_dir_path=r".\datasets\rpo")
+                                                       prompt_file_dir=r".\datasets",
+                                                       prompt_file_name=r"my_prompt.txt",
+                                                       )
     # Пример работы итератора
     # sample: RPOSample
     # for sample in rpo_iterator:
@@ -76,7 +80,10 @@ if __name__ == "__main__":
     # создаем новый итератор
     rpo_iterator = IteratorFabric.get_dataset_iterator(task_name="RPOSorting",
                                                        dataset_name="small-dataset",
-                                                       dataset_dir_path=r".\datasets\rpo")
+                                                       dataset_dir_path=r".\datasets\rpo",
+                                                       prompt_file_dir=r".\datasets",
+                                                       prompt_file_name=r"my_prompt.txt",
+                                                       )
      
 
     # Получаем раннер
