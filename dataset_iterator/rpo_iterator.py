@@ -87,10 +87,11 @@ class RPODatasetIterator(AbstractIterator):
                     with open(json_path, 'r', encoding='utf-8') as f:
                         json_data = json.load(f)
 
+                    sample_prompt = f"Количество поданных страниц документов - {len(images)}.\n" + prompt
                     sample = RPOSample(id=int(dir_name), 
                                        images=images, 
                                        answer=json_data,
-                                       prompt=prompt)
+                                       prompt=sample_prompt)
                     self.samples.append(sample)
         
     def __next__(self) -> RPOSample:
