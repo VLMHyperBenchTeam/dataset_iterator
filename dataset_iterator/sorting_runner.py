@@ -1,9 +1,10 @@
 import os
 import csv
+import pandas as pd
 
+from tqdm import tqdm
 from datetime import datetime
 from dataclasses import dataclass, asdict
-import pandas as pd
 from typing import Any, Dict
 from collections import Counter
 
@@ -80,7 +81,7 @@ class SortingRunner(AbstractDatasetRunner):
         """
 
         row: RPOSample
-        for row in self.iterator:
+        for row in tqdm(self.iterator):
             # получаем ответ модели классификации для данного сэмла, содержит в себе 12554
             answer_cls = self.classification_answers.get(row.id) 
 
@@ -141,5 +142,5 @@ class SortingRunner(AbstractDatasetRunner):
         save_path = self.get_answer_filename()
 
         # Сохраняем DataFrame в CSV
-        answers_df.to_csv(save_path, index=False, sep=";")
+        answers_df.to_csv(save_path, index=False, sep=" ;")
         return save_path

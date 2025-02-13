@@ -1,7 +1,8 @@
 import os
+import pandas as pd
 from datetime import datetime
 from dataclasses import dataclass, asdict
-import pandas as pd
+from tqdm import tqdm
 
 from .abstract_dataset_runner import AbstractDatasetRunner
 from .rpo_iterator import RPOSample
@@ -36,7 +37,7 @@ class ClassificationRunner(AbstractDatasetRunner):
         Проходит по всем сэмплам в итераторе, получает ответы модели и сохраняет их.
         """
         row: RPOSample
-        for row in self.iterator:
+        for row in tqdm(self.iterator):
             answer_cls = self.model.predict_on_images(row.images, row.prompt)
             # ответ в формате  "2,2,5,5,3", убираем запятые
             answer_cls = answer_cls.replace(",", "")

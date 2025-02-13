@@ -1,5 +1,6 @@
 from dataclasses import dataclass, asdict
 import pandas as pd
+from tqdm import tqdm
 
 from .abstract_dataset_runner import AbstractDatasetRunner
 from .vqa_iterator import VQASample
@@ -34,7 +35,7 @@ class VQADatasetRunner(AbstractDatasetRunner):
         Проходит по всем сэмплам в итераторе, получает ответы модели и сохраняет их.
         """
         row: VQASample
-        for row in self.iterator:
+        for row in tqdm(self.iterator):
             answer = self.model.predict_on_image(row.image_path, row.question)
             self.add_answer(row, answer)
 
