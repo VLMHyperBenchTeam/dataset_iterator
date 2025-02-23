@@ -49,7 +49,10 @@ class VQADatasetIterator(AbstractIterator):
         prompt_adapter (Optional[PromptAdapter]): Адаптер для работы с промптами. Если не задан, равен None.
     """
 
-    def __init__(self, prompt_collection_filename: Optional[str] = None, *args, **kwargs) -> None:
+    def __init__(self,
+                 prompt_collection_filename: Optional[str] = None,
+                 prompt_dir: Optional[str] = "",
+                 *args, **kwargs) -> None:
         """Инициализирует экземпляр VQADatasetIterator.
 
         Аргументы:
@@ -60,7 +63,7 @@ class VQADatasetIterator(AbstractIterator):
         super().__init__(*args, **kwargs)
 
         if prompt_collection_filename:
-            self.prompt_adapter = PromptAdapter(prompt_collection_filename)
+            self.prompt_adapter = PromptAdapter(prompt_collection_filename, prompt_dir)
         else:
             self.prompt_adapter = None
 
