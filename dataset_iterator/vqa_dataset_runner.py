@@ -69,5 +69,5 @@ class VQADatasetRunner(AbstractDatasetRunner):
         save_path = self.get_answer_filename()
 
         # Сохраняем DataFrame в CSV
-        answers_df.to_csv(save_path, index=False, sep=";")
+        answers_df.to_csv(save_path, index=False, sep=";", encoding='utf-8-sig')
         return save_path
