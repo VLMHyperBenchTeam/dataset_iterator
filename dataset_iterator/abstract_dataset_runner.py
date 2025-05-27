@@ -64,7 +64,7 @@ class AbstractDatasetRunner(ABC):
         timestamp = datetime.now().strftime(r"%Y%m%d_%H%M%S")  # Формат: ГГГГММДД_ЧЧММСС
         save_path = os.path.join(
             self.answers_dir_path,
-            f"{self.iterator.dataset_name}_MODELFRAMEWORK_{self.model.model_name}_{self.iterator.task_name}_answers_{timestamp}.csv"
+            f"{self.iterator.dataset_name}_{self.model.framework}_{self.model.model_name}_{self.iterator.task_name}_answers_{timestamp}.csv"
         )
         return save_path
 

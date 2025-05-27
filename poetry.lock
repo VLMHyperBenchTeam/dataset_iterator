@@ -174,7 +174,7 @@ develop = false
 type = "git"
 url = "https://github.com/VLMHyperBenchTeam/prompt_adapter.git"
 reference = "HEAD"
-resolved_reference = "2b65ddf3e7558b1deba320e5e492e3289d0fd3db"
+resolved_reference = "0884538114f4420a81ff2948ddef7b52869624e6"
 
 [[package]]
 name = "python-dateutil"
